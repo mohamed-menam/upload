@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="Goal_id" model="ir.actions.act_window">
+        <field name="name">Goal</field>
+        <field name="res_model">goal.appraisal</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+
+    <record id="Goal_form" model="ir.ui.view">
+        <field name="name">Goal</field>
+        <field name="model">goal.appraisal</field>
+        <field name="arch" type="xml">
+            <form string="Goal">
+                <header>
+                    <button id="id-idi" name="weight_employee" type="object"
+                        class="btn-primary"
+                        string='lock' states='draft' />
+
+                    <button id="id-idjkdki" name="weight_unlock" type="object"
+                        class="btn-primary"
+                        string='unlock' states='confirm' />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm" />
+                </header>
+                <sheet>
+                    <group col="2">
+                        <group>
+                            <field name="name" />
+                        </group>
+                        <group>
+                            <field name="deadline" />
+                        </group>
+                    </group>
+                    <group col="2">
+                        <group>
+                            <field name="goal_type" widget="selection" />
+                        </group>
+                        <group>
+                            <field name="type_of_measurement" widget="selection" />
+                        </group>
+                    </group>
+                    <group col="2">
+                        <group>
+                            <field name="employ" widget='selection' />
+
+                        </group>
+                        <group>
+                            <field name="manager" widget='selection' />
+                        </group>
+                    </group>
+                    <group col="2">
+                        <group>
+                            <field name="hr" widget='selection' />
+                        </group>
+                        <group>
+                            <field name="weight" attrs="{'readonly':[('state','=', 'confirm')]}" />
+                            <!-- <field name="pip" /> -->
+                        </group>
+                    </group>
+
+                    <group col="2">
+                        <group>
+                            <field name="progress" />
+                        </group>
+                        <group>
+                            <field name="X_progress" widget="progressbar" />
+                        </group>
+                    </group>
+                    <group col="2">
+                        <group>
+                            <field name="score" attrs="{'readonly':[('state','=', 'confirm')]}" />
+                        </group>
+                        <group>
+                            <field name="x_score" widget="percentpie" />
+                        </group>
+                    </group>
+                    <group>
+                        <field name="weighted_score" />
+                        <field name="description" />
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="my_module_my_model_kanban_view">
+        <field name="name">Goal</field>
+        <field name="model">goal.appraisal</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name" />
+                <field name="description" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_content">
+                            <div class="oe_kanban_title">
+                                <field name="name" />
+                            </div>
+                            <div class="oe_kanban_details">
+                                <field name="deadline" />
+
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="Goal_name_tree" model="ir.ui.view">
+        <field name="name">Goal</field>
+        <field name="model">goal.appraisal</field>
+        <field name="arch" type="xml">
+            <tree string="Goal">
+
+                <field name="name" />
+                <field name="deadline" />
+                <field name="employ" />
+                <field name="weight" sum="sum" />
+                <field name="manager" />
+                <field name="progress" />
+                <field name="score" sum="sum" />
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="Goal_name_search" model="ir.ui.view">
+        <field name="name">Search</field>
+        <field name="model">goal.appraisal</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="name" />
+                <field name="deadline" />
+                <field name="employ" />
+                <field name="manager" />
+                <field name="progress" />
+                <field name="score" />
+                <separator />
+                <filter name="employ" string="employee" domain="[('goal_type','=','personal')]" />
+            </search>
+        </field>
+    </record>
+
+
+    <menuitem name="Goal" id="menu_Goal" parent="menu_hr_appraisal_root" action="Goal_id"
+        sequence="10" />
+
+
+</odoo>
